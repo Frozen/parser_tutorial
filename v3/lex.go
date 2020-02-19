@@ -58,6 +58,7 @@ func (l *lex) Error(s string) {
 }
 
 func cat(bytes ...byte) string {
+	return string(bytes)
 	var out string
 	for _, b := range bytes {
 		out += string(b)
