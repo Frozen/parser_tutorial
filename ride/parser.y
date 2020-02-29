@@ -18,16 +18,28 @@ func setResult(l yyLexer, v Ast) {
   val interface{}
   str string
   ast Ast
+  defArgs []FuncArg
+  callArgs []Ast
 }
 
 %token LexError
 %token Let
 %token Eq
 %token Func
-%token OpenB
-%token CloseB
-%token OpenF
-%token CloseF
+%token OpenB // (
+%token CloseB // )
+%token OpenF // {
+%token CloseF // }
+%token OpenS // [
+%token CloseS // ]
+%token Mod // %
+%token Comma
+%token Colon // :
+%token Plus // +
+%token Match // match
+%token Case // case
+%token RightArrow // =>
+%token Compare // ==
 %token <str> Number
 %token <str> String Literal
 
@@ -43,6 +55,14 @@ func setResult(l yyLexer, v Ast) {
 %type <ast> let_definition
 %type <ast> func_definition
 %type <ast> func_body
+//%type <ast> func_optional_params
+%type <defArgs> func_optional_params
+%type <ast> func_call
+%type <callArgs> func_call_args
+%type <ast> match_expr
+%type <ast> required_case
+%type <ast> typed_case
+//%type <ast> default_case
 
 
 %start start
@@ -80,15 +100,26 @@ let_definition: Let Literal Eq expression
 	__yyfmt__.Println($4)
 	$$ = NewLetBlock($2, $4)
 }
-func_definition: Func Literal OpenB CloseB Eq func_body
-//func_definition: Func Literal OpenB func_optional_params CloseB Eq func_body
+//func_definition: Func Literal OpenB func_opt_params CloseB Eq func_body
+func_definition: Func Literal OpenB func_optional_params CloseB Eq func_body
 {
-	$$ = NewFuncDeclaration($2, nil, nil)
+	$$ = NewFuncDeclaration($2, $4, $7)
 }
 
-//func_optional_params: // empty
+func_optional_params: // empty
+{
+	$$ = []FuncArg{}
+}
+| Comma Literal Colon Literal func_optional_params
+{
+	$$ = append([]FuncArg{FuncArg {Name: $2, Type: $4}},   $5...)
+}
+| Literal Colon Literal func_optional_params
+{
+	$$ = append([]FuncArg{FuncArg {Name: $1, Type: $3}}, $4...)
+}
 
-func_body: OpenF expression CloseF
+func_body: OpenF definition_or_expression CloseF
 {
 	$$ = $2
 } | expression
@@ -99,7 +130,17 @@ func_body: OpenF expression CloseF
 
 //definition:
 
-expression: Number
+expression:
+func_call
+{
+	$$ = $1
+}
+| match_expr
+{
+  $$ = $1
+}
+
+| Number
 {
   __yyfmt__.Println("number", $1)
   $$ = NewNumber($1)
@@ -107,8 +148,69 @@ expression: Number
 | String
   {
   __yyfmt__.Println("string", $1)
-    $$ = StringAst($1)
+    $$ = $1
   }
+  | Literal
+  {
+  __yyfmt__.Println("literal", $1)
+    $$ = $1
+  }
+
+match_expr: Match expression match_cases
+{
+    $$ = NewMatch($2, nil)
+}
+
+match_cases: OpenF CloseF
+
+
+required_case: typed_case
+{
+  $$ = $1
+}
+//| default_case
+//{
+//  $$ = $1
+//}
+
+typed_case: Case Literal Colon Literal RightArrow expression
+{
+  $$ = NewCase($2, $4, $6)
+}
+
+
+func_call: Literal OpenB func_call_args CloseB
+{
+	$$ = NewFuncCall($1, $3...)
+}
+// index
+  | Literal OpenS expression CloseS
+  {
+  	$$ = NewFuncCall("getByIndex", $1, $3)
+  }
+  // mod (x % y)
+  | Literal Mod Literal
+  {
+    	$$ = NewFuncCall("%", $1, $3)
+  }
+  |Literal Plus Literal
+  {
+        $$ = NewFuncCall("+", $1, $3)
+  }
+
+
+func_call_args: /* empty */
+{
+	$$ = nil
+}
+| Comma expression func_call_args
+{
+	$$ = append([]Ast{$2}, $3...)
+}
+| expression func_call_args
+{
+	$$ = append([]Ast{$1}, $2...)
+}
 
 //| String
 

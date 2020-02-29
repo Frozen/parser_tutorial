@@ -13,10 +13,17 @@ import (
 //go:generate goyacc -l -o parser.go parser.y
 
 // Parse parses the input and returns the result.
-func Parse(input []byte) (Ast, error) {
-	l := newLex(input)
+func Parse(input string) (Ast, error) {
+	l := newLex([]byte(input))
 	_ = yyParse(l)
 	return l.result, l.err
+}
+
+var keywords = map[string]int{
+	"let":   Let,
+	"func":  Func,
+	"match": Match,
+	"case":  Case,
 }
 
 type lex struct {
@@ -43,7 +50,7 @@ func (l *lex) scanNormal(lval *yySymType) int {
 		_ = runeB
 		switch {
 		case b == '=':
-			return Eq
+			return l.scanEq(lval)
 		case b == '(':
 			return OpenB
 		case b == ')':
@@ -52,6 +59,18 @@ func (l *lex) scanNormal(lval *yySymType) int {
 			return OpenF
 		case b == '}':
 			return CloseF
+		case b == '[':
+			return OpenS
+		case b == ']':
+			return CloseS
+		case b == ',':
+			return Comma
+		case b == ':':
+			return Colon
+		case b == '%':
+			return Mod
+		case b == '+':
+			return Plus
 		case unicode.IsSpace(rune(b)):
 			continue
 		case b == '"':
@@ -132,17 +151,14 @@ func (l *lex) scanNum(lval *yySymType) int {
 //	"null":  nil,
 //}
 
-var keywords = map[string]int{
-	"let":  Let,
-	"func": Func,
-}
-
 func (l *lex) scanLiteral(lval *yySymType) int {
 	buf := bytes.NewBuffer(nil)
 	for {
 		b := l.next()
 		switch {
 		case unicode.IsLetter(rune(b)):
+			buf.WriteByte(b)
+		case unicode.IsDigit(rune(b)):
 			buf.WriteByte(b)
 		default:
 			l.backup()
@@ -155,6 +171,18 @@ func (l *lex) scanLiteral(lval *yySymType) int {
 			return val
 		}
 	}
+}
+
+func (l *lex) scanEq(lval *yySymType) int {
+	next := l.next()
+	switch {
+	case next == '>':
+		return RightArrow
+	case next == '=':
+		return Compare
+	}
+	l.backup()
+	return Eq
 }
 
 func (l *lex) backup() {

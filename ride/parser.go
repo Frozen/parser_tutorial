@@ -13,13 +13,15 @@ func setResult(l yyLexer, v Ast) {
 }
 
 type yySymType struct {
-	yys  int
-	obj  map[string]interface{}
-	list []interface{}
-	pair pair
-	val  interface{}
-	str  string
-	ast  Ast
+	yys      int
+	obj      map[string]interface{}
+	list     []interface{}
+	pair     pair
+	val      interface{}
+	str      string
+	ast      Ast
+	defArgs  []FuncArg
+	callArgs []Ast
 }
 
 const LexError = 57346
@@ -30,9 +32,19 @@ const OpenB = 57350
 const CloseB = 57351
 const OpenF = 57352
 const CloseF = 57353
-const Number = 57354
-const String = 57355
-const Literal = 57356
+const OpenS = 57354
+const CloseS = 57355
+const Mod = 57356
+const Comma = 57357
+const Colon = 57358
+const Plus = 57359
+const Match = 57360
+const Case = 57361
+const RightArrow = 57362
+const Compare = 57363
+const Number = 57364
+const String = 57365
+const Literal = 57366
 
 var yyToknames = [...]string{
 	"$end",
@@ -46,6 +58,16 @@ var yyToknames = [...]string{
 	"CloseB",
 	"OpenF",
 	"CloseF",
+	"OpenS",
+	"CloseS",
+	"Mod",
+	"Comma",
+	"Colon",
+	"Plus",
+	"Match",
+	"Case",
+	"RightArrow",
+	"Compare",
 	"Number",
 	"String",
 	"Literal",
@@ -64,45 +86,61 @@ var yyExca = [...]int{
 
 const yyPrivate = 57344
 
-const yyLast = 26
+const yyLast = 68
 
 var yyAct = [...]int{
 
-	4, 9, 19, 10, 7, 8, 7, 8, 7, 8,
-	22, 12, 11, 16, 15, 14, 17, 13, 20, 1,
-	21, 18, 6, 5, 3, 2,
+	24, 4, 2, 37, 23, 22, 49, 14, 12, 51,
+	13, 9, 10, 11, 14, 21, 47, 25, 9, 10,
+	11, 14, 38, 43, 33, 9, 10, 11, 14, 36,
+	34, 39, 9, 10, 11, 27, 26, 20, 19, 41,
+	46, 44, 35, 55, 40, 31, 50, 42, 32, 29,
+	4, 52, 53, 15, 45, 54, 28, 16, 30, 17,
+	1, 8, 18, 7, 48, 6, 5, 3,
 }
 var yyPact = [...]int{
 
-	-4, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -2,
-	-3, 11, 7, -6, 4, -1000, 10, -8, -1000, -6,
-	-1000, -1, -1000,
+	3, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000,
+	-1000, 45, 14, 13, 10, -11, 10, 12, 11, 50,
+	41, 35, 39, 10, -11, 29, -1000, -1000, 10, 7,
+	-1000, 33, -1000, -11, -1000, -1000, -1000, 38, -1, 25,
+	-1000, -1000, 48, 24, -8, -4, -15, 7, -1000, 3,
+	-1000, 7, -1000, 32, -1000, -1000,
 }
 var yyPgo = [...]int{
 
-	0, 0, 25, 24, 23, 22, 21, 19,
+	0, 0, 2, 67, 66, 65, 64, 3, 63, 5,
+	61, 61, 61, 60, 58,
 }
 var yyR1 = [...]int{
 
-	0, 7, 2, 2, 3, 3, 4, 5, 6, 6,
-	1, 1,
+	0, 13, 2, 2, 3, 3, 4, 5, 7, 7,
+	7, 6, 6, 1, 1, 1, 1, 1, 10, 14,
+	11, 12, 8, 8, 8, 8, 9, 9, 9,
 }
 var yyR2 = [...]int{
 
-	0, 1, 1, 1, 1, 1, 4, 6, 3, 1,
-	1, 1,
+	0, 1, 1, 1, 1, 1, 4, 7, 0, 5,
+	4, 3, 1, 1, 1, 1, 1, 1, 3, 2,
+	1, 6, 4, 4, 3, 3, 0, 3, 2,
 }
 var yyChk = [...]int{
 
-	-1000, -7, -2, -3, -1, -4, -5, 12, 13, 5,
-	7, 14, 14, 6, 8, -1, 9, 6, -6, 10,
-	-1, -1, 11,
+	-1000, -13, -2, -3, -1, -4, -5, -8, -10, 22,
+	23, 24, 5, 7, 18, 8, 12, 14, 17, 24,
+	24, -1, -9, 15, -1, -1, 24, 24, 6, 8,
+	-14, 10, 9, -1, -9, 13, -1, -7, 15, 24,
+	11, -9, 9, 24, 16, 6, 16, 24, -6, 10,
+	-1, 24, -7, -2, -7, 11,
 }
 var yyDef = [...]int{
 
-	0, -2, 1, 2, 3, 4, 5, 10, 11, 0,
-	0, 0, 0, 0, 0, 6, 0, 0, 7, 0,
-	9, 0, 8,
+	0, -2, 1, 2, 3, 4, 5, 13, 14, 15,
+	16, 17, 0, 0, 0, 26, 0, 0, 0, 0,
+	0, 0, 0, 0, 26, 0, 24, 25, 0, 8,
+	18, 0, 22, 26, 28, 23, 6, 0, 0, 0,
+	19, 27, 0, 0, 0, 0, 0, 8, 7, 0,
+	12, 8, 10, 0, 9, 11,
 }
 var yyTok1 = [...]int{
 
@@ -111,7 +149,8 @@ var yyTok1 = [...]int{
 var yyTok2 = [...]int{
 
 	2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
-	12, 13, 14,
+	12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+	22, 23, 24,
 }
 var yyTok3 = [...]int{
 	0,
@@ -485,31 +524,112 @@ yydefault:
 			yyVAL.ast = NewLetBlock(yyDollar[2].str, yyDollar[4].ast)
 		}
 	case 7:
-		yyDollar = yyS[yypt-6 : yypt+1]
+		yyDollar = yyS[yypt-7 : yypt+1]
 		{
-			yyVAL.ast = NewFuncDeclaration(yyDollar[2].str, nil, nil)
+			yyVAL.ast = NewFuncDeclaration(yyDollar[2].str, yyDollar[4].defArgs, yyDollar[7].ast)
 		}
 	case 8:
+		yyDollar = yyS[yypt-0 : yypt+1]
+		{
+			yyVAL.defArgs = []FuncArg{}
+		}
+	case 9:
+		yyDollar = yyS[yypt-5 : yypt+1]
+		{
+			yyVAL.defArgs = append([]FuncArg{FuncArg{Name: yyDollar[2].str, Type: yyDollar[4].str}}, yyDollar[5].defArgs...)
+		}
+	case 10:
+		yyDollar = yyS[yypt-4 : yypt+1]
+		{
+			yyVAL.defArgs = append([]FuncArg{FuncArg{Name: yyDollar[1].str, Type: yyDollar[3].str}}, yyDollar[4].defArgs...)
+		}
+	case 11:
 		yyDollar = yyS[yypt-3 : yypt+1]
 		{
 			yyVAL.ast = yyDollar[2].ast
 		}
-	case 9:
+	case 12:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
 			yyVAL.ast = yyDollar[1].ast
 		}
-	case 10:
+	case 13:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].ast
+		}
+	case 14:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].ast
+		}
+	case 15:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
 			__yyfmt__.Println("number", yyDollar[1].str)
 			yyVAL.ast = NewNumber(yyDollar[1].str)
 		}
-	case 11:
+	case 16:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
 			__yyfmt__.Println("string", yyDollar[1].str)
-			yyVAL.ast = StringAst(yyDollar[1].str)
+			yyVAL.ast = yyDollar[1].str
+		}
+	case 17:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			__yyfmt__.Println("literal", yyDollar[1].str)
+			yyVAL.ast = yyDollar[1].str
+		}
+	case 18:
+		yyDollar = yyS[yypt-3 : yypt+1]
+		{
+			yyVAL.ast = NewMatch(yyDollar[2].ast, nil)
+		}
+	case 20:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].ast
+		}
+	case 21:
+		yyDollar = yyS[yypt-6 : yypt+1]
+		{
+			yyVAL.ast = NewCase(yyDollar[2].str, yyDollar[4].str, yyDollar[6].ast)
+		}
+	case 22:
+		yyDollar = yyS[yypt-4 : yypt+1]
+		{
+			yyVAL.ast = NewFuncCall(yyDollar[1].str, yyDollar[3].callArgs...)
+		}
+	case 23:
+		yyDollar = yyS[yypt-4 : yypt+1]
+		{
+			yyVAL.ast = NewFuncCall("getByIndex", yyDollar[1].str, yyDollar[3].ast)
+		}
+	case 24:
+		yyDollar = yyS[yypt-3 : yypt+1]
+		{
+			yyVAL.ast = NewFuncCall("%", yyDollar[1].str, yyDollar[3].str)
+		}
+	case 25:
+		yyDollar = yyS[yypt-3 : yypt+1]
+		{
+			yyVAL.ast = NewFuncCall("+", yyDollar[1].str, yyDollar[3].str)
+		}
+	case 26:
+		yyDollar = yyS[yypt-0 : yypt+1]
+		{
+			yyVAL.callArgs = nil
+		}
+	case 27:
+		yyDollar = yyS[yypt-3 : yypt+1]
+		{
+			yyVAL.callArgs = append([]Ast{yyDollar[2].ast}, yyDollar[3].callArgs...)
+		}
+	case 28:
+		yyDollar = yyS[yypt-2 : yypt+1]
+		{
+			yyVAL.callArgs = append([]Ast{yyDollar[1].ast}, yyDollar[2].callArgs...)
 		}
 	}
 	goto yystack /* stack new state and value */

@@ -21,11 +21,11 @@ func NewNumber(s string) Ast {
 	return NumberAst(s)
 }
 
-type StringAst string
+//type StringAst string
 
 type FuncArg struct {
-	Name  string
-	Value Ast
+	Name string
+	Type string
 }
 
 type FuncDeclaration struct {
@@ -39,6 +39,55 @@ func NewFuncDeclaration(name string, Args []FuncArg, Body Ast) FuncDeclaration {
 		Name: name,
 		Args: Args,
 		Body: Body,
+	}
+}
+
+func NewArgs(args ...FuncArg) []FuncArg {
+	return args
+}
+
+func NewArg(name, Type string) FuncArg {
+	return FuncArg{
+		Name: name,
+		Type: Type,
+	}
+}
+
+type FuncCall struct {
+	Name string
+	Args []Ast
+}
+
+func NewFuncCall(name string, args ...Ast) FuncCall {
+	return FuncCall{
+		Name: name,
+		Args: args,
+	}
+}
+
+type CaseE struct {
+	VarName  string
+	TypeName string
+	Body     Ast
+}
+
+func NewCase(vaName string, Typename string, Body Ast) CaseE {
+	return CaseE{
+		VarName:  vaName,
+		TypeName: Typename,
+		Body:     Body,
+	}
+}
+
+type MatchE struct {
+	Arg   Ast
+	Cases []CaseE
+}
+
+func NewMatch(Ast Ast, Cases []CaseE) MatchE {
+	return MatchE{
+		Arg:   Ast,
+		Cases: Cases,
 	}
 }
 
