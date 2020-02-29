@@ -34,6 +34,14 @@ type FuncDeclaration struct {
 	Body Ast
 }
 
+func NewFuncDeclaration(name string, Args []FuncArg, Body Ast) FuncDeclaration {
+	return FuncDeclaration{
+		Name: name,
+		Args: Args,
+		Body: Body,
+	}
+}
+
 //func NewNumber(s string) Ast {
 //	return NumberAst(s)
 //}

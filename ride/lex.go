@@ -44,6 +44,14 @@ func (l *lex) scanNormal(lval *yySymType) int {
 		switch {
 		case b == '=':
 			return Eq
+		case b == '(':
+			return OpenB
+		case b == ')':
+			return CloseB
+		case b == '{':
+			return OpenF
+		case b == '}':
+			return CloseF
 		case unicode.IsSpace(rune(b)):
 			continue
 		case b == '"':
@@ -125,7 +133,8 @@ func (l *lex) scanNum(lval *yySymType) int {
 //}
 
 var keywords = map[string]int{
-	"let": Let,
+	"let":  Let,
+	"func": Func,
 }
 
 func (l *lex) scanLiteral(lval *yySymType) int {

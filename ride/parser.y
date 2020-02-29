@@ -23,6 +23,11 @@ func setResult(l yyLexer, v Ast) {
 %token LexError
 %token Let
 %token Eq
+%token Func
+%token OpenB
+%token CloseB
+%token OpenF
+%token CloseF
 %token <str> Number
 %token <str> String Literal
 
@@ -36,6 +41,8 @@ func setResult(l yyLexer, v Ast) {
 %type <ast> definition_or_expression
 %type <ast> definition
 %type <ast> let_definition
+%type <ast> func_definition
+%type <ast> func_body
 
 
 %start start
@@ -63,11 +70,30 @@ definition: let_definition
 //	setResult(yylex, $1)
 	$$ = $1
 }
+| func_definition
+{
+	$$ = $1
+}
 
 let_definition: Let Literal Eq expression
 {
 	__yyfmt__.Println($4)
 	$$ = NewLetBlock($2, $4)
+}
+func_definition: Func Literal OpenB CloseB Eq func_body
+//func_definition: Func Literal OpenB func_optional_params CloseB Eq func_body
+{
+	$$ = NewFuncDeclaration($2, nil, nil)
+}
+
+//func_optional_params: // empty
+
+func_body: OpenF expression CloseF
+{
+	$$ = $2
+} | expression
+{
+	$$ = $1
 }
 
 

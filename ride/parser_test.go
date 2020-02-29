@@ -13,3 +13,9 @@ func TestParse2(t *testing.T) {
 	t.Logf("%+v", rs)
 	t.Log(err)
 }
+
+func TestFuncNoArgs(t *testing.T) {
+	rs, err := Parse([]byte(`func getAnswer()  = { 5 }`))
+	t.Logf("%+v", rs)
+	t.Log(err)
+}

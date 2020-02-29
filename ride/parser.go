@@ -25,9 +25,14 @@ type yySymType struct {
 const LexError = 57346
 const Let = 57347
 const Eq = 57348
-const Number = 57349
-const String = 57350
-const Literal = 57351
+const Func = 57349
+const OpenB = 57350
+const CloseB = 57351
+const OpenF = 57352
+const CloseF = 57353
+const Number = 57354
+const String = 57355
+const Literal = 57356
 
 var yyToknames = [...]string{
 	"$end",
@@ -36,6 +41,11 @@ var yyToknames = [...]string{
 	"LexError",
 	"Let",
 	"Eq",
+	"Func",
+	"OpenB",
+	"CloseB",
+	"OpenF",
+	"CloseF",
 	"Number",
 	"String",
 	"Literal",
@@ -54,39 +64,45 @@ var yyExca = [...]int{
 
 const yyPrivate = 57344
 
-const yyLast = 13
+const yyLast = 26
 
 var yyAct = [...]int{
 
-	4, 8, 9, 6, 7, 6, 7, 10, 1, 5,
-	3, 11, 2,
+	4, 9, 19, 10, 7, 8, 7, 8, 7, 8,
+	22, 12, 11, 16, 15, 14, 17, 13, 20, 1,
+	21, 18, 6, 5, 3, 2,
 }
 var yyPact = [...]int{
 
-	-4, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -7, 1,
-	-2, -1000,
+	-4, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -2,
+	-3, 11, 7, -6, 4, -1000, 10, -8, -1000, -6,
+	-1000, -1, -1000,
 }
 var yyPgo = [...]int{
 
-	0, 0, 12, 10, 9, 8,
+	0, 0, 25, 24, 23, 22, 21, 19,
 }
 var yyR1 = [...]int{
 
-	0, 5, 2, 2, 3, 4, 1, 1,
+	0, 7, 2, 2, 3, 3, 4, 5, 6, 6,
+	1, 1,
 }
 var yyR2 = [...]int{
 
-	0, 1, 1, 1, 1, 4, 1, 1,
+	0, 1, 1, 1, 1, 1, 4, 6, 3, 1,
+	1, 1,
 }
 var yyChk = [...]int{
 
-	-1000, -5, -2, -3, -1, -4, 7, 8, 5, 9,
-	6, -1,
+	-1000, -7, -2, -3, -1, -4, -5, 12, 13, 5,
+	7, 14, 14, 6, 8, -1, 9, 6, -6, 10,
+	-1, -1, 11,
 }
 var yyDef = [...]int{
 
-	0, -2, 1, 2, 3, 4, 6, 7, 0, 0,
-	0, 5,
+	0, -2, 1, 2, 3, 4, 5, 10, 11, 0,
+	0, 0, 0, 0, 0, 6, 0, 0, 7, 0,
+	9, 0, 8,
 }
 var yyTok1 = [...]int{
 
@@ -94,7 +110,8 @@ var yyTok1 = [...]int{
 }
 var yyTok2 = [...]int{
 
-	2, 3, 4, 5, 6, 7, 8, 9,
+	2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+	12, 13, 14,
 }
 var yyTok3 = [...]int{
 	0,
@@ -457,18 +474,38 @@ yydefault:
 			yyVAL.ast = yyDollar[1].ast
 		}
 	case 5:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].ast
+		}
+	case 6:
 		yyDollar = yyS[yypt-4 : yypt+1]
 		{
 			__yyfmt__.Println(yyDollar[4].ast)
 			yyVAL.ast = NewLetBlock(yyDollar[2].str, yyDollar[4].ast)
 		}
-	case 6:
+	case 7:
+		yyDollar = yyS[yypt-6 : yypt+1]
+		{
+			yyVAL.ast = NewFuncDeclaration(yyDollar[2].str, nil, nil)
+		}
+	case 8:
+		yyDollar = yyS[yypt-3 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[2].ast
+		}
+	case 9:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].ast
+		}
+	case 10:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
 			__yyfmt__.Println("number", yyDollar[1].str)
 			yyVAL.ast = NewNumber(yyDollar[1].str)
 		}
-	case 7:
+	case 11:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
 			__yyfmt__.Println("string", yyDollar[1].str)
