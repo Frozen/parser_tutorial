@@ -63,7 +63,7 @@ func setResult(l yyLexer, v Ast) {
 %type <callArgs> func_call_args
 %type <ast> match_expr
 %type <case_> required_case
-%type <case_> optional_case
+%type <cases> optional_cases
 %type <case_> typed_case
 %type <case_> untyped_case
 %type <ast> simple_type
@@ -164,13 +164,13 @@ func_call
 
 match_expr: Match expression match_cases
 {
-    $$ = NewMatch($2)
+    $$ = NewMatch($2, $3...)
 }
 
-match_cases: OpenF required_case optional_case CloseF
+match_cases: OpenF required_case optional_cases CloseF
 {
 	/// bla bla
-    $$ = append([]CaseE{$2}, $3)
+    $$ = append([]CaseE{$2}, $3...)
 }
 
 
@@ -183,17 +183,18 @@ required_case: typed_case
   $$ = $1
 }
 
-optional_case: /* empty */
+optional_cases: /* empty */
 {
+  // optional_case
   $$ = []CaseE{}
 }
-| typed_case
+| typed_case optional_cases
 {
-$$ = $1
+$$ = append([]CaseE{$1}, $2...)
 }
-| untyped_case
+| untyped_case optional_cases
 {
-$$ = $1
+$$ = append([]CaseE{$1}, $2...)
 }
 
 typed_case: Case Literal Colon Literal RightArrow expression

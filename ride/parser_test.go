@@ -118,7 +118,7 @@ func TestFuncHard(t *testing.T) {
 func TestMatch(t *testing.T) {
 	rs, err := Parse("match x {case y:Int => 555 }")
 	require.NoError(t, err)
-	require.Equal(t, NewMatch("x"), rs)
+	require.Equal(t, NewMatch("x", TypedCase("y", "Int", NewNumber("555"))), rs)
 }
 
 var matchCase = `
@@ -133,5 +133,6 @@ func TestMatch2(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, NewMatch(
 		NewFuncCall("getString", "this"),
-		TypedCase("a", "String", "a")), rs)
+		TypedCase("a", "String", "a"),
+		UntypedCase("_", "address")), rs)
 }
