@@ -84,87 +84,88 @@ var yyExca = [...]int{
 	-1, 1,
 	1, -1,
 	-2, 0,
-	-1, 9,
-	14, 31,
-	17, 31,
-	-2, 15,
 	-1, 10,
-	14, 32,
-	17, 32,
-	-2, 16,
+	14, 34,
+	17, 34,
+	-2, 18,
 	-1, 11,
-	14, 33,
-	17, 33,
-	-2, 17,
+	14, 35,
+	17, 35,
+	-2, 19,
+	-1, 12,
+	14, 36,
+	17, 36,
+	-2, 20,
 }
 
 const yyPrivate = 57344
 
-const yyLast = 88
+const yyLast = 98
 
 var yyAct = [...]int{
 
-	25, 4, 41, 2, 52, 23, 54, 15, 53, 69,
-	67, 9, 10, 11, 42, 58, 22, 12, 26, 13,
-	30, 31, 32, 43, 55, 37, 50, 19, 40, 18,
-	15, 38, 14, 65, 9, 10, 11, 73, 47, 39,
-	57, 15, 46, 48, 45, 9, 10, 11, 62, 51,
-	74, 16, 63, 29, 33, 17, 59, 66, 60, 61,
-	20, 68, 35, 21, 70, 49, 4, 36, 24, 71,
-	72, 15, 28, 56, 75, 9, 10, 11, 27, 1,
-	34, 44, 8, 7, 64, 6, 5, 3,
+	5, 36, 2, 24, 54, 56, 3, 14, 55, 71,
+	69, 10, 11, 12, 60, 21, 37, 57, 26, 27,
+	6, 51, 7, 35, 16, 38, 40, 26, 15, 76,
+	41, 46, 19, 14, 42, 20, 49, 10, 11, 12,
+	45, 26, 48, 44, 53, 25, 77, 59, 14, 29,
+	30, 31, 10, 11, 12, 6, 52, 61, 34, 68,
+	62, 63, 70, 13, 50, 39, 72, 67, 14, 73,
+	74, 75, 10, 11, 12, 14, 23, 78, 64, 10,
+	11, 12, 65, 28, 32, 17, 58, 22, 1, 18,
+	47, 33, 43, 9, 8, 66, 4, 0,
 }
 var yyPact = [...]int{
 
-	12, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000,
-	-1000, 43, 5, 3, 46, -11, 53, -11, 72, 64,
-	-2, -2, 52, 58, -11, 53, 26, -11, -1, -1000,
-	-1000, -1000, -1000, -1000, -1000, 19, -1000, 53, -1000, -1000,
-	-1000, 56, 2, 33, 19, -1000, -1000, 0, -1000, 67,
-	24, -9, 45, 19, 19, 32, 23, -14, -1, -1000,
-	-1000, -1000, -15, -11, -1000, 12, -1000, -1, -1000, 17,
-	-1000, 39, -1000, -11, -1000, -1000,
+	15, -1000, -1000, -1000, -1000, -1000, 4, 0, -1000, -1000,
+	-1000, -1000, 77, 18, -11, 81, 68, 30, -11, 27,
+	27, 48, -11, 1, 56, -11, 30, 21, -1000, -1000,
+	-1000, -1000, -1000, -1000, 12, 50, 55, -3, 40, -1000,
+	30, -1000, -1000, 12, -1000, -1000, -7, -1000, -1000, -1000,
+	80, 31, -10, -1000, 46, 12, 12, 62, 57, -14,
+	1, -1000, -1000, -1000, -15, -11, 15, 15, -1000, 1,
+	-1000, 9, -1000, -1000, 35, -1000, -11, -1000, -1000,
 }
 var yyPgo = [...]int{
 
-	0, 0, 3, 87, 86, 85, 84, 2, 83, 5,
-	82, 81, 4, 8, 6, 32, 80, 79,
+	0, 0, 2, 97, 96, 95, 1, 94, 3, 93,
+	92, 4, 8, 5, 63, 91, 6, 90, 88,
 }
 var yyR1 = [...]int{
 
-	0, 17, 2, 2, 3, 3, 4, 5, 7, 7,
-	7, 6, 6, 1, 1, 1, 1, 1, 10, 16,
-	11, 11, 12, 12, 12, 13, 14, 8, 8, 8,
-	8, 15, 15, 15, 9, 9, 9,
+	0, 18, 2, 2, 2, 2, 16, 17, 17, 3,
+	4, 6, 6, 6, 5, 5, 1, 1, 1, 1,
+	1, 9, 15, 10, 10, 11, 11, 11, 12, 13,
+	7, 7, 7, 7, 14, 14, 14, 8, 8, 8,
 }
 var yyR2 = [...]int{
 
-	0, 1, 1, 1, 1, 1, 4, 7, 0, 5,
-	4, 3, 1, 1, 1, 1, 1, 1, 3, 4,
-	1, 1, 0, 2, 2, 6, 4, 4, 4, 3,
-	3, 1, 1, 1, 0, 3, 2,
+	0, 1, 1, 1, 1, 0, 5, 1, 1, 4,
+	8, 0, 5, 4, 3, 1, 1, 1, 1, 1,
+	1, 3, 4, 1, 1, 0, 2, 2, 6, 4,
+	4, 4, 3, 3, 1, 1, 1, 0, 3, 2,
 }
 var yyChk = [...]int{
 
-	-1000, -17, -2, -3, -1, -4, -5, -8, -10, 22,
-	23, 24, 5, 7, -15, 18, 8, 12, 24, 24,
-	14, 17, -1, -9, 15, -1, -1, 6, 8, -15,
-	22, 23, 24, -15, -16, 10, 9, -1, -9, 13,
-	-1, -7, 15, 24, -11, -13, -14, 19, -9, 9,
-	24, 16, -12, -13, -14, 24, 6, 16, 24, 11,
-	-12, -12, 16, 20, -6, 10, -1, 24, -7, 24,
-	-1, -2, -7, 20, 11, -1,
+	-1000, -18, -2, -16, -4, -1, 5, 7, -7, -9,
+	22, 23, 24, -14, 18, 24, 24, 8, 12, 14,
+	17, -1, 6, 8, -8, 15, -1, -1, -14, 22,
+	23, 24, -14, -15, 10, -1, -6, 15, 24, 9,
+	-1, -8, 13, -10, -12, -13, 19, -17, -16, -1,
+	9, 24, 16, -8, -11, -12, -13, 24, 6, 16,
+	24, 11, -11, -11, 16, 20, -5, 10, -1, 24,
+	-6, 24, -1, -2, -2, -6, 20, 11, -1,
 }
 var yyDef = [...]int{
 
-	0, -2, 1, 2, 3, 4, 5, 13, 14, -2,
-	-2, -2, 0, 0, 0, 0, 34, 0, 0, 0,
-	0, 0, 0, 0, 0, 34, 0, 0, 8, 29,
-	31, 32, 33, 30, 18, 0, 27, 34, 36, 28,
-	6, 0, 0, 0, 22, 20, 21, 0, 35, 0,
-	0, 0, 0, 22, 22, 0, 0, 0, 8, 19,
-	23, 24, 0, 0, 7, 0, 12, 8, 10, 0,
-	26, 0, 9, 0, 11, 25,
+	5, -2, 1, 2, 3, 4, 0, 0, 16, 17,
+	-2, -2, -2, 0, 0, 0, 0, 37, 0, 0,
+	0, 0, 0, 11, 0, 0, 37, 0, 32, 34,
+	35, 36, 33, 21, 0, 0, 0, 0, 0, 30,
+	37, 39, 31, 25, 23, 24, 0, 6, 7, 8,
+	0, 0, 0, 38, 0, 25, 25, 0, 0, 0,
+	11, 22, 26, 27, 0, 0, 5, 5, 15, 11,
+	13, 0, 29, 10, 0, 12, 0, 14, 28,
 }
 var yyTok1 = [...]int{
 
@@ -533,171 +534,185 @@ yydefault:
 	case 4:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
-			//	setResult(yylex, $1)
 			yyVAL.ast = yyDollar[1].ast
 		}
 	case 5:
+		yyDollar = yyS[yypt-0 : yypt+1]
+		{
+			yyVAL.ast = nil
+		}
+	case 6:
+		yyDollar = yyS[yypt-5 : yypt+1]
+		{
+			yyVAL.ast = NewLetBlock(yyDollar[2].str, yyDollar[4].ast, yyDollar[5].ast)
+		}
+	case 7:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
 			yyVAL.ast = yyDollar[1].ast
 		}
-	case 6:
+	case 8:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].ast
+		}
+	case 9:
 		yyDollar = yyS[yypt-4 : yypt+1]
 		{
 			__yyfmt__.Println(yyDollar[4].ast)
-			yyVAL.ast = NewLetBlock(yyDollar[2].str, yyDollar[4].ast)
+			yyVAL.ast = NewLetBlock(yyDollar[2].str, yyDollar[4].ast, nil)
 		}
-	case 7:
-		yyDollar = yyS[yypt-7 : yypt+1]
+	case 10:
+		yyDollar = yyS[yypt-8 : yypt+1]
 		{
-			yyVAL.ast = NewFuncDeclaration(yyDollar[2].str, yyDollar[4].defArgs, yyDollar[7].ast)
+			yyVAL.ast = NewFunc(yyDollar[2].str, yyDollar[4].defArgs, yyDollar[7].ast, yyDollar[8].ast)
 		}
-	case 8:
+	case 11:
 		yyDollar = yyS[yypt-0 : yypt+1]
 		{
 			yyVAL.defArgs = []FuncArg{}
 		}
-	case 9:
+	case 12:
 		yyDollar = yyS[yypt-5 : yypt+1]
 		{
 			yyVAL.defArgs = append([]FuncArg{FuncArg{Name: yyDollar[2].str, Type: yyDollar[4].str}}, yyDollar[5].defArgs...)
 		}
-	case 10:
+	case 13:
 		yyDollar = yyS[yypt-4 : yypt+1]
 		{
 			yyVAL.defArgs = append([]FuncArg{FuncArg{Name: yyDollar[1].str, Type: yyDollar[3].str}}, yyDollar[4].defArgs...)
 		}
-	case 11:
+	case 14:
 		yyDollar = yyS[yypt-3 : yypt+1]
 		{
 			yyVAL.ast = yyDollar[2].ast
 		}
-	case 12:
-		yyDollar = yyS[yypt-1 : yypt+1]
-		{
-			yyVAL.ast = yyDollar[1].ast
-		}
-	case 13:
-		yyDollar = yyS[yypt-1 : yypt+1]
-		{
-			yyVAL.ast = yyDollar[1].ast
-		}
-	case 14:
-		yyDollar = yyS[yypt-1 : yypt+1]
-		{
-			yyVAL.ast = yyDollar[1].ast
-		}
 	case 15:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].ast
+		}
+	case 16:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].ast
+		}
+	case 17:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].ast
+		}
+	case 18:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
 			__yyfmt__.Println("number", yyDollar[1].str)
 			yyVAL.ast = NewNumber(yyDollar[1].str)
 		}
-	case 16:
+	case 19:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
 			__yyfmt__.Println("string", yyDollar[1].str)
 			yyVAL.ast = yyDollar[1].str
 		}
-	case 17:
+	case 20:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
 			__yyfmt__.Println("literal", yyDollar[1].str)
 			yyVAL.ast = yyDollar[1].str
 		}
-	case 18:
+	case 21:
 		yyDollar = yyS[yypt-3 : yypt+1]
 		{
 			yyVAL.ast = NewMatch(yyDollar[2].ast, yyDollar[3].cases...)
 		}
-	case 19:
+	case 22:
 		yyDollar = yyS[yypt-4 : yypt+1]
 		{
 			/// bla bla
 			yyVAL.cases = append([]CaseE{yyDollar[2].case_}, yyDollar[3].cases...)
 		}
-	case 20:
+	case 23:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
 			yyVAL.case_ = yyDollar[1].case_
 		}
-	case 21:
+	case 24:
 		yyDollar = yyS[yypt-1 : yypt+1]
 		{
 			yyVAL.case_ = yyDollar[1].case_
 		}
-	case 22:
+	case 25:
 		yyDollar = yyS[yypt-0 : yypt+1]
 		{
 			// optional_case
 			yyVAL.cases = []CaseE{}
 		}
-	case 23:
+	case 26:
 		yyDollar = yyS[yypt-2 : yypt+1]
 		{
 			yyVAL.cases = append([]CaseE{yyDollar[1].case_}, yyDollar[2].cases...)
 		}
-	case 24:
+	case 27:
 		yyDollar = yyS[yypt-2 : yypt+1]
 		{
 			yyVAL.cases = append([]CaseE{yyDollar[1].case_}, yyDollar[2].cases...)
 		}
-	case 25:
+	case 28:
 		yyDollar = yyS[yypt-6 : yypt+1]
 		{
 			yyVAL.case_ = TypedCase(yyDollar[2].str, yyDollar[4].str, yyDollar[6].ast)
 		}
-	case 26:
+	case 29:
 		yyDollar = yyS[yypt-4 : yypt+1]
 		{
 			yyVAL.case_ = UntypedCase(yyDollar[2].str, yyDollar[4].ast)
 		}
-	case 27:
+	case 30:
 		yyDollar = yyS[yypt-4 : yypt+1]
 		{
 			yyVAL.ast = NewFuncCall(yyDollar[1].str, yyDollar[3].callArgs...)
 		}
-	case 28:
+	case 31:
 		yyDollar = yyS[yypt-4 : yypt+1]
 		{
 			yyVAL.ast = NewFuncCall("getByIndex", yyDollar[1].str, yyDollar[3].ast)
 		}
-	case 29:
+	case 32:
 		yyDollar = yyS[yypt-3 : yypt+1]
 		{
 			yyVAL.ast = NewFuncCall("%", yyDollar[1].ast, yyDollar[3].ast)
 		}
-	case 30:
+	case 33:
 		yyDollar = yyS[yypt-3 : yypt+1]
 		{
 			yyVAL.ast = NewFuncCall("+", yyDollar[1].ast, yyDollar[3].ast)
 		}
-	case 31:
-		yyDollar = yyS[yypt-1 : yypt+1]
-		{
-			yyVAL.ast = yyDollar[1].str
-		}
-	case 32:
-		yyDollar = yyS[yypt-1 : yypt+1]
-		{
-			yyVAL.ast = yyDollar[1].str
-		}
-	case 33:
-		yyDollar = yyS[yypt-1 : yypt+1]
-		{
-			yyVAL.ast = yyDollar[1].str
-		}
 	case 34:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].str
+		}
+	case 35:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].str
+		}
+	case 36:
+		yyDollar = yyS[yypt-1 : yypt+1]
+		{
+			yyVAL.ast = yyDollar[1].str
+		}
+	case 37:
 		yyDollar = yyS[yypt-0 : yypt+1]
 		{
 			yyVAL.callArgs = nil
 		}
-	case 35:
+	case 38:
 		yyDollar = yyS[yypt-3 : yypt+1]
 		{
 			yyVAL.callArgs = append([]Ast{yyDollar[2].ast}, yyDollar[3].callArgs...)
 		}
-	case 36:
+	case 39:
 		yyDollar = yyS[yypt-2 : yypt+1]
 		{
 			yyVAL.callArgs = append([]Ast{yyDollar[1].ast}, yyDollar[2].callArgs...)

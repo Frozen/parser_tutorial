@@ -53,9 +53,9 @@ func setResult(l yyLexer, v Ast) {
 
 %type <ast> expression
 %type <ast> definition_or_expression
-%type <ast> definition
+//%type <ast> definition
 %type <ast> let_definition
-%type <ast> func_definition
+%type <ast> func_block
 %type <ast> func_body
 //%type <ast> func_optional_params
 %type <defArgs> func_optional_params
@@ -68,8 +68,8 @@ func setResult(l yyLexer, v Ast) {
 %type <case_> untyped_case
 %type <ast> simple_type
 %type <cases> match_cases
-
-
+%type <ast> let_block
+%type <ast> let_block_or_expression
 
 %start start
 
@@ -81,7 +81,11 @@ start: definition_or_expression
 }
 
 
-definition_or_expression: definition
+definition_or_expression: let_block
+  {
+    $$ = $1
+  }
+  | func_block
   {
     $$ = $1
   }
@@ -89,27 +93,45 @@ definition_or_expression: definition
   {
     $$ = $1
   }
+  | /* empty */
+  {
+   $$ = nil
+  }
+
+let_block: Let Literal Eq expression let_block_or_expression
+{
+  $$ = NewLetBlock($2, $4, $5)
+}
+
+let_block_or_expression: let_block
+{
+  $$ = $1
+}
+| expression
+{
+  $$ = $1
+}
 
 
-definition: let_definition
-{
-//	setResult(yylex, $1)
-	$$ = $1
-}
-| func_definition
-{
-	$$ = $1
-}
+//definition: let_definition
+//{
+////	setResult(yylex, $1)
+//	$$ = $1
+//}
+//| func_definition
+//{
+//	$$ = $1
+//}
 
 let_definition: Let Literal Eq expression
 {
 	__yyfmt__.Println($4)
-	$$ = NewLetBlock($2, $4)
+	$$ = NewLetBlock($2, $4, nil)
 }
 //func_definition: Func Literal OpenB func_opt_params CloseB Eq func_body
-func_definition: Func Literal OpenB func_optional_params CloseB Eq func_body
+func_block: Func Literal OpenB func_optional_params CloseB Eq func_body definition_or_expression
 {
-	$$ = NewFuncDeclaration($2, $4, $7)
+	$$ = NewFunc($2, $4, $7, $8)
 }
 
 func_optional_params: // empty

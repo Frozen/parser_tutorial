@@ -4,14 +4,16 @@ type Ast interface {
 }
 
 type LetBlock struct {
-	Name string
-	Body Ast
+	Name  string
+	Value Ast
+	Body  Ast
 }
 
-func NewLetBlock(name string, body Ast) LetBlock {
+func NewLetBlock(name string, value Ast, body Ast) LetBlock {
 	return LetBlock{
-		Name: name,
-		Body: body,
+		Name:  name,
+		Value: value,
+		Body:  body,
 	}
 }
 
@@ -28,17 +30,19 @@ type FuncArg struct {
 	Type string
 }
 
-type FuncDeclaration struct {
-	Name string
-	Args []FuncArg
-	Body Ast
+type FuncE struct {
+	Name     string
+	Args     []FuncArg
+	FuncBody Ast
+	Body     Ast
 }
 
-func NewFuncDeclaration(name string, Args []FuncArg, Body Ast) FuncDeclaration {
-	return FuncDeclaration{
-		Name: name,
-		Args: Args,
-		Body: Body,
+func NewFunc(name string, Args []FuncArg, FuncBody Ast, Body Ast) FuncE {
+	return FuncE{
+		Name:     name,
+		Args:     Args,
+		FuncBody: FuncBody,
+		Body:     Body,
 	}
 }
 
