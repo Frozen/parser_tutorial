@@ -97,6 +97,13 @@ func TestFuncPlus(t *testing.T) {
 	require.Equal(t, NewFuncCall("+", "index", "answersCount"), rs)
 }
 
+func TestFuncPlus2(t *testing.T) {
+	rs, err := Parse(`address + "a"`)
+	require.NoError(t, err)
+	require.Equal(t, NewFuncCall("+", "address", "a"), rs)
+
+}
+
 func TestFuncHard(t *testing.T) {
 	rs, err := Parse("func some(index: Int,  answersCount: Int) = index + answersCount")
 	require.NoError(t, err)
@@ -108,14 +115,23 @@ func TestFuncHard(t *testing.T) {
 		NewFuncCall("+", "index", "answersCount")), rs)
 }
 
+func TestMatch(t *testing.T) {
+	rs, err := Parse("match x {case y:Int => 555 }")
+	require.NoError(t, err)
+	require.Equal(t, NewMatch("x"), rs)
+}
+
 var matchCase = `
-  match getString(this, address + "_a") {
+  match getString(this) {
     case a: String => a
     case _ => address
   }`
 
-func TestMatch(t *testing.T) {
-	rs, err := Parse("match x {}")
+func TestMatch2(t *testing.T) {
+	rs, err := Parse(matchCase)
+
 	require.NoError(t, err)
-	require.Equal(t, NewMatch("x", nil), rs)
+	require.Equal(t, NewMatch(
+		NewFuncCall("getString", "this"),
+		TypedCase("a", "String", "a")), rs)
 }

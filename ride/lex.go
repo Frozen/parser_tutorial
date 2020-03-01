@@ -78,7 +78,7 @@ func (l *lex) scanNormal(lval *yySymType) int {
 		case unicode.IsDigit(rune(b)) || b == '+' || b == '-':
 			l.backup()
 			return l.scanNum(lval)
-		case unicode.IsLetter(rune(b)):
+		case unicode.IsLetter(rune(b)) || b == '_':
 			l.backup()
 			return l.scanLiteral(lval)
 
@@ -159,6 +159,8 @@ func (l *lex) scanLiteral(lval *yySymType) int {
 		case unicode.IsLetter(rune(b)):
 			buf.WriteByte(b)
 		case unicode.IsDigit(rune(b)):
+			buf.WriteByte(b)
+		case b == '_':
 			buf.WriteByte(b)
 		default:
 			l.backup()

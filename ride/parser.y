@@ -20,6 +20,8 @@ func setResult(l yyLexer, v Ast) {
   ast Ast
   defArgs []FuncArg
   callArgs []Ast
+  cases []CaseE
+  case_ CaseE
 }
 
 %token LexError
@@ -60,9 +62,13 @@ func setResult(l yyLexer, v Ast) {
 %type <ast> func_call
 %type <callArgs> func_call_args
 %type <ast> match_expr
-%type <ast> required_case
-%type <ast> typed_case
-//%type <ast> default_case
+%type <case_> required_case
+%type <case_> optional_case
+%type <case_> typed_case
+%type <case_> untyped_case
+%type <ast> simple_type
+%type <cases> match_cases
+
 
 
 %start start
@@ -158,24 +164,46 @@ func_call
 
 match_expr: Match expression match_cases
 {
-    $$ = NewMatch($2, nil)
+    $$ = NewMatch($2)
 }
 
-match_cases: OpenF CloseF
+match_cases: OpenF required_case optional_case CloseF
+{
+	/// bla bla
+    $$ = append([]CaseE{$2}, $3)
+}
 
 
 required_case: typed_case
 {
   $$ = $1
 }
-//| default_case
-//{
-//  $$ = $1
-//}
+| untyped_case
+{
+  $$ = $1
+}
+
+optional_case: /* empty */
+{
+  $$ = []CaseE{}
+}
+| typed_case
+{
+$$ = $1
+}
+| untyped_case
+{
+$$ = $1
+}
 
 typed_case: Case Literal Colon Literal RightArrow expression
 {
-  $$ = NewCase($2, $4, $6)
+  $$ = TypedCase($2, $4, $6)
+}
+
+untyped_case: Case Literal RightArrow expression
+{
+  $$ = UntypedCase($2, $4)
 }
 
 
@@ -189,14 +217,27 @@ func_call: Literal OpenB func_call_args CloseB
   	$$ = NewFuncCall("getByIndex", $1, $3)
   }
   // mod (x % y)
-  | Literal Mod Literal
+  | simple_type Mod simple_type
   {
     	$$ = NewFuncCall("%", $1, $3)
   }
-  |Literal Plus Literal
+  |simple_type Plus simple_type
   {
         $$ = NewFuncCall("+", $1, $3)
   }
+
+simple_type: Number
+{
+  $$ = $1
+}
+| String
+{
+  $$ = $1
+}
+| Literal
+{
+  $$ = $1
+}
 
 
 func_call_args: /* empty */

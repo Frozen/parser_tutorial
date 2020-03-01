@@ -66,16 +66,27 @@ func NewFuncCall(name string, args ...Ast) FuncCall {
 }
 
 type CaseE struct {
+	Typed    bool
 	VarName  string
 	TypeName string
 	Body     Ast
 }
 
-func NewCase(vaName string, Typename string, Body Ast) CaseE {
+func TypedCase(vaName string, Typename string, Body Ast) CaseE {
 	return CaseE{
+		Typed:    true,
 		VarName:  vaName,
 		TypeName: Typename,
 		Body:     Body,
+	}
+}
+
+func UntypedCase(name string, body Ast) CaseE {
+	return CaseE{
+		Typed:    false,
+		VarName:  name,
+		TypeName: "",
+		Body:     body,
 	}
 }
 
@@ -84,7 +95,7 @@ type MatchE struct {
 	Cases []CaseE
 }
 
-func NewMatch(Ast Ast, Cases []CaseE) MatchE {
+func NewMatch(Ast Ast, Cases ...CaseE) MatchE {
 	return MatchE{
 		Arg:   Ast,
 		Cases: Cases,
