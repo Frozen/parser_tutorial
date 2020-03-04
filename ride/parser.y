@@ -27,7 +27,7 @@ func setResult(l yyLexer, v Ast) {
 %token LexError
 %token Let
 %token Eq
-%token Func
+%token FuncT
 %token OpenB // (
 %token CloseB // )
 %token OpenF // {
@@ -129,9 +129,9 @@ let_definition: Let Literal Eq expression
 	$$ = NewLetBlock($2, $4, nil)
 }
 //func_definition: Func Literal OpenB func_opt_params CloseB Eq func_body
-func_block: Func Literal OpenB func_optional_params CloseB Eq func_body definition_or_expression
+func_block: FuncT Literal OpenB func_optional_params CloseB Eq func_body definition_or_expression
 {
-	$$ = NewFunc($2, $4, $7, $8)
+	$$ = Func($2, $4, $7, $8)
 }
 
 func_optional_params: // empty
@@ -232,21 +232,25 @@ untyped_case: Case Literal RightArrow expression
 
 func_call: Literal OpenB func_call_args CloseB
 {
-	$$ = NewFuncCall($1, $3...)
+	$$ = FuncCall($1, $3...)
 }
 // index
   | Literal OpenS expression CloseS
   {
-  	$$ = NewFuncCall("getByIndex", $1, $3)
+  	$$ = FuncCall("getByIndex", $1, $3)
+  }
+  | OpenS expression CloseS
+  {
+  	$$ = FuncCall("NewList", $2)
   }
   // mod (x % y)
   | simple_type Mod simple_type
   {
-    	$$ = NewFuncCall("%", $1, $3)
+    	$$ = FuncCall("%", $1, $3)
   }
   |simple_type Plus simple_type
   {
-        $$ = NewFuncCall("+", $1, $3)
+        $$ = FuncCall("+", $1, $3)
   }
 
 simple_type: Number

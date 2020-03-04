@@ -21,7 +21,7 @@ func Parse(input string) (Ast, error) {
 
 var keywords = map[string]int{
 	"let":   Let,
-	"func":  Func,
+	"func":  FuncT,
 	"match": Match,
 	"case":  Case,
 }

@@ -37,7 +37,7 @@ type FuncE struct {
 	Body     Ast
 }
 
-func NewFunc(name string, Args []FuncArg, FuncBody Ast, Body Ast) FuncE {
+func Func(name string, Args []FuncArg, FuncBody Ast, Body Ast) FuncE {
 	return FuncE{
 		Name:     name,
 		Args:     Args,
@@ -57,13 +57,13 @@ func NewArg(name, Type string) FuncArg {
 	}
 }
 
-type FuncCall struct {
+type FuncCallE struct {
 	Name string
 	Args []Ast
 }
 
-func NewFuncCall(name string, args ...Ast) FuncCall {
-	return FuncCall{
+func FuncCall(name string, args ...Ast) FuncCallE {
+	return FuncCallE{
 		Name: name,
 		Args: args,
 	}

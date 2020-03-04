@@ -28,24 +28,18 @@ func TestFuncNoParams(t *testing.T) {
 func TestFunc1Param(t *testing.T) {
 	rs, err := Parse(`func getAnswer(x: Int)  = 5 `)
 	require.NoError(t, err)
-	require.Equal(t, FuncE{
-		Name: "getAnswer",
-		Args: NewArgs(FuncArg{
-			Name: "x",
-			Type: "Int",
-		}),
-		Body: NewNumber("5"),
-	}, rs)
+	require.Equal(t, Func("getAnswer", NewArgs(NewArg("x", "Int")), NewNumber("5"), nil), rs)
 }
 
 func TestFunc2Params(t *testing.T) {
 	rs, err := Parse(`func getAnswer(x: Int, str: String)  = { 5 }`)
 	require.NoError(t, err)
-	require.Equal(t, FuncE{
-		Name: "getAnswer",
-		Args: NewArgs(NewArg("x", "Int"), NewArg("str", "String")),
-		Body: NewNumber("5"),
-	}, rs)
+	require.Equal(t,
+		Func(
+			"getAnswer",
+			NewArgs(NewArg("x", "Int"), NewArg("str", "String")),
+			NewNumber("5"),
+			nil), rs)
 }
 
 var example = `
@@ -58,61 +52,61 @@ func getAnswer(question: String, previousAnswer: String) = {
 func TestParseFuncCallNoArgs(t *testing.T) {
 	rs, err := Parse("toBytes()")
 	require.NoError(t, err)
-	require.Equal(t, NewFuncCall("toBytes"), rs)
+	require.Equal(t, FuncCall("toBytes"), rs)
 }
 
 func TestParseFuncCall1Args(t *testing.T) {
 	rs, err := Parse("toBytes(bla)")
 	require.NoError(t, err)
-	require.Equal(t, NewFuncCall("toBytes", "bla"), rs)
+	require.Equal(t, FuncCall("toBytes", "bla"), rs)
 }
 
 func TestParseFuncCall2Args(t *testing.T) {
 	rs, err := Parse("toBytes(10, xxx)")
 	require.NoError(t, err)
-	require.Equal(t, NewFuncCall("toBytes", NewNumber("10"), "xxx"), rs)
+	require.Equal(t, FuncCall("toBytes", NewNumber("10"), "xxx"), rs)
 }
 
 func TestParseFuncCallCall(t *testing.T) {
 	rs, err := Parse("sha256(toBytes(question))")
 	require.NoError(t, err)
-	require.Equal(t, NewFuncCall("sha256", NewFuncCall("toBytes", "question")), rs)
+	require.Equal(t, FuncCall("sha256", FuncCall("toBytes", "question")), rs)
 }
 
 func TestFuncGetByIndex(t *testing.T) {
 	rs, err := Parse("array[10]")
 	require.NoError(t, err)
-	require.Equal(t, NewFuncCall("getByIndex", "array", NewNumber("10")), rs)
+	require.Equal(t, FuncCall("getByIndex", "array", NewNumber("10")), rs)
 }
 
 func TestFuncMod(t *testing.T) {
 	rs, err := Parse("index % answersCount")
 	require.NoError(t, err)
-	require.Equal(t, NewFuncCall("%", "index", "answersCount"), rs)
+	require.Equal(t, FuncCall("%", "index", "answersCount"), rs)
 }
 
 func TestFuncPlus(t *testing.T) {
 	rs, err := Parse("index + answersCount")
 	require.NoError(t, err)
-	require.Equal(t, NewFuncCall("+", "index", "answersCount"), rs)
+	require.Equal(t, FuncCall("+", "index", "answersCount"), rs)
 }
 
 func TestFuncPlus2(t *testing.T) {
 	rs, err := Parse(`address + "a"`)
 	require.NoError(t, err)
-	require.Equal(t, NewFuncCall("+", "address", "a"), rs)
+	require.Equal(t, FuncCall("+", "address", "a"), rs)
 
 }
 
 //func TestFuncHard(t *testing.T) {
 //	rs, err := Parse("func some(index: Int,  answersCount: Int) = index + answersCount")
 //	require.NoError(t, err)
-//	require.Equal(t, NewFunc(
+//	require.Equal(t, Func(
 //		"some",
 //		NewArgs(
 //			NewArg("index", "Int"),
 //			NewArg("answersCount", "Int")),
-//		NewFuncCall("+", "index", "answersCount")), rs)
+//		FuncCall("+", "index", "answersCount")), rs)
 //}
 
 func TestMatch(t *testing.T) {
@@ -132,7 +126,7 @@ func TestMatch2(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Equal(t, NewMatch(
-		NewFuncCall("getString", "this"),
+		FuncCall("getString", "this"),
 		TypedCase("a", "String", "a"),
 		UntypedCase("_", "address")), rs)
 }
@@ -150,7 +144,7 @@ func TestMatch3(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Equal(t, NewMatch(
-		NewFuncCall("getString", "this"),
+		FuncCall("getString", "this"),
 		TypedCase("a", "String", "a"),
 		UntypedCase("_", "address")), rs)
 }
@@ -177,10 +171,15 @@ func TestParseFunc(t *testing.T) {
 	rs, err := Parse(p)
 	require.NoError(t, err)
 	require.Equal(t,
-		NewFunc("getAnswer",
+		Func("getAnswer",
 			NewArgs(
 				NewArg("question", "String"),
 				NewArg("previousAnswer", "String")),
+			NewLetBlock("hash", FuncCall("sha256", FuncCall("toBytes", FuncCall("+", "question", "previousAnswer"))),
+				NewLetBlock("index", FuncCall("toInt", "hash"),
+					FuncCall("getByIndex",
+						"answers",
+						FuncCall("%", "index", "answersCount")))),
 			nil), rs)
 }
 
